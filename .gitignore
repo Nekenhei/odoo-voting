@@ -1,0 +1,21 @@
+# Folder to not ignore
+/debian/
+/.github/
+/doc/
+/odoo/
+/setup/
+/.tx/
+/.vscode/
+/addons/*
+!/addons/voting/
+
+CONTRIBUTING.md
+COPYRIGHT
+LICENSE
+MANIFEST.in
+odoo-bin
+README.md
+requirements.txt
+SECURITY.md
+setup.cfg
+setup.py
