@@ -18,18 +18,24 @@
     # for the full list
     'category': 'CRM',
     'version': '0.1',
-
+    'license': 'LGPL-3',
     # any module necessary for this one to work correctly
-    'depends': ['base', 'contact'],
+    'depends': ['base', 'contacts'],
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
-        'views/views.xml',
-        'views/templates.xml',
+        'data/sequence.xml',
+        'data/university.xml',
+        'data/student.xml',
+        
+        'security/ir.model.access.csv',
+        
+        'views/university_views.xml',
+        'views/partner_views.xml',
+        'views/student_views.xml',
+        'views/voting_views.xml',
+        'views/menu_views.xml',
     ],
-    # only loaded in demonstration mode
-    'demo': [
-        'demo/demo.xml',
-    ],
+    'application': True,
+    'installable': True
 }

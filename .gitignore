@@ -7,6 +7,8 @@
 /.tx/
 /.vscode/
 /addons/*
+/addons/*/*/__pycache__
+/addons/*/__pycache__
 !/addons/voting/
 
 CONTRIBUTING.md

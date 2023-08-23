@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="student_candidate_view_tree" model="ir.ui.view">
+        <field name="name">student.candidate.view.tree</field>
+        <field name="model">student.candidate</field>
+        <field name="arch" type="xml">
+            <tree string="Candidatos">
+                <field name="name" />
+                <field name="partner_id" />
+                <field name="candidate_identification" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="student_candidate_view_form" model="ir.ui.view">
+        <field name="name">student.candidate.view.form</field>
+        <field name="model">student.candidate</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <div class="oe_title">
+						<h1>
+							<field name="name"/>
+						</h1>
+					</div>
+                    <group>
+                        <field name="partner_id" />
+                        <field name="candidate_identification" />
+                    </group>
+                    <notebook>
+                        <page name="votings" string="Votaciones">
+                            <field name="voting_line_ids">
+                                <tree string="Votaciones" create="False" delete="False" edit="False" editable="bottom">
+                                    <field name="voting_id" />
+                                    <field name="voting_qty" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_student_candidate_act_window" model="ir.actions.act_window">
+		<field name="type">ir.actions.act_window</field>
+		<field name="name">Candidatos Votaciones</field>
+		<field name="res_model">student.candidate</field>
+		<field name="view_mode">tree,form</field>
+		<field name="target">current</field>
+	</record>
+
+</odoo>

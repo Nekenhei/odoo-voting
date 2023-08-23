@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- SITES -->
+        <record id="belgium_site" model="university.site">
+            <field name="country_id" ref="base.be"/>
+            <field name="address">Av Siempre Viva 123</field>
+            <field name="contact_number">5555555</field>
+        </record>
+
+        <record id="colombia_site" model="university.site">
+            <field name="country_id" ref="base.co"/>
+            <field name="address">Av Siempre Viva 124</field>
+            <field name="contact_number">6666666</field>
+        </record>
+
+        <record id="venezuela_site" model="university.site">
+            <field name="country_id" ref="base.ve"/>
+            <field name="address">Av Siempre Viva 125</field>
+            <field name="contact_number">7777777</field>
+        </record>
+
+        <record id="argentina_site" model="university.site">
+            <field name="country_id" ref="base.ar"/>
+            <field name="address">Av Siempre Viva 126</field>
+            <field name="contact_number">888888</field>
+        </record>
+
+        <!-- DEANS -->
+        <record id="engineering_dean" model="university.dean">
+            <field name="lead_partner_id" ref="base.res_partner_1"/>
+            <field name="name">Decanatura Ingeniería</field>
+        </record>
+
+        <record id="health_dean" model="university.dean">
+            <field name="lead_partner_id" ref="base.res_partner_2"/>
+            <field name="name">Decanatura Salud</field>
+        </record>
+
+        <!-- CAREERS -->
+        <record id="software_career" model="university.career">
+            <field name="dean_id" ref="voting.engineering_dean"/>
+            <field name="name">Ingeniería Desarrollo Software</field>
+            <field name="career_type">pregrado</field>
+            <field name="is_virtual">False</field>
+            <field name="sites_ids" eval="[(6, 0, [ref('colombia_site')])]"/>
+        </record>
+
+        <record id="healt_career" model="university.career">
+            <field name="dean_id" ref="voting.health_dean"/>
+            <field name="name">Medicina</field>
+            <field name="career_type">pregrado</field>
+            <field name="is_virtual">False</field>
+            <field name="sites_ids" eval="[(6, 0, [ref('belgium_site')])]"/>
+        </record>
+
+        
+    </data>
+</odoo>

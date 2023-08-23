@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="voting_process_view_search" model="ir.ui.view">
+        <field name="name">voting.process.view.search</field>
+        <field name="model">voting.process</field>
+        <field name="arch" type="xml">
+            <search string="Procesos Votación">
+                <field name="name" />
+				<field name="semester" />
+				<field name="year" />
+				<field name="site_id" />
+				<group expand="0" string="Group By">
+					<filter name="year" string="Año" context="{'group_by':'year'}"/>
+					<filter name="state" string="Estado" context="{'group_by':'state'}"/>
+					<filter name="site_id" string="Site" context="{'group_by':'site_id'}"/>
+				</group>
+            </search>
+        </field>
+    </record>
+
+    <record id="voting_process_view_tree" model="ir.ui.view">
+        <field name="name">voting.process.view.tree</field>
+        <field name="model">voting.process</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="name" />
+                <field name="year" />
+                <field name="semester" />
+                <field name="start_date" />
+                <field name="end_date" />
+                <field name="site_id" />
+                <field name="state" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="voting_process_view_form" model="ir.ui.view">
+        <field name="name">voting.process.view.form</field>
+        <field name="model">voting.process</field>
+        <field name="arch" type="xml">
+            <form string="Votacion">
+                <header>
+					<field name="state" widget="statusbar" statusbar_visible="draft,in_progress,done"/>
+				</header>
+                <sheet>
+                    <div class="oe_title">
+						<h1>
+							<field name="name"/>
+						</h1>
+					</div>
+                    <group col="6">
+                        <field name="year"/>
+                        <field name="semester"/>
+                        <field name="site_id"/>
+                    </group>
+                    <group col="4">
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+                    </group>
+                    <notebook>
+                        <page name="voting" string="Candidatos">
+                            <field name="voting_line_ids">
+                                <tree string="Candidatos" create="true" delete="true" edit="true" editable="bottom">
+                                    <field name="candidate_id"/>
+                                    <field name="voting_qty"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

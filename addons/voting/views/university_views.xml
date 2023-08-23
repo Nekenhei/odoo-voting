@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="university_career_view_search" model="ir.ui.view">
+		<field name="name">university.career.view.search</field>
+		<field name="model">university.career</field>
+		<field name="arch" type="xml">
+			<search string="Carreras">
+				<field name="name" />
+				<field name="dean_id" />
+				<group expand="0" string="Group By">
+					<filter name="career_type" string="Tipo Carrera" context="{'group_by':'career_type'}"/>
+					<filter name="is_virtual" string="Virtual" context="{'group_by':'is_virtual'}"/>
+					<filter name="dean_id" string="Decanatura" context="{'group_by':'dean_id'}"/>
+				</group>
+			</search>
+		</field>
+	</record>
+
+	<record id="university_site_view_tree" model="ir.ui.view">
+		<field name="name">university.site.view.tree</field>
+		<field name="model">university.site</field>
+		<field name="arch" type="xml">
+			<tree string="Sites">
+				<field name="name"/>
+				<field name="address"/>
+				<field name="contact_number"/>
+				<field name="country_id"/>
+			</tree>
+		</field>
+	</record>
+
+	<record id="university_dean_view_tree" model="ir.ui.view">
+		<field name="name">university.dean.view.tree</field>
+		<field name="model">university.dean</field>
+		<field name="arch" type="xml">
+			<tree string="Decanaturas">
+				<field name="name"/>
+				<field name="lead_partner_id"/>
+				<field name="career_ids" widget="many2many_tags"/>
+			</tree>
+		</field>
+	</record>
+
+	<record id="university_career_view_tree" model="ir.ui.view">
+		<field name="name">university.career.view.tree</field>
+		<field name="model">university.career</field>
+		<field name="arch" type="xml">
+			<tree string="Carreras">
+				<field name="name"/>
+				<field name="career_type"/>
+				<field name="is_virtual"/>
+				<field name="dean_id"/>
+				<field name="sites_ids" widget="many2many_tags"/>
+			</tree>
+		</field>
+	</record>
+
+	<record id="university_career_view_form" model="ir.ui.view">
+		<field name="name">university.career.view.form</field>
+		<field name="model">university.career</field>
+		<field name="arch" type="xml">
+			<form string="Carrera">
+				<sheet>
+					<div class="oe_title">
+						<h1>
+							<field name="name"/>
+						</h1>
+					</div>
+					<group col="4">
+						<field name="career_type" />
+						<field name="dean_id" />
+					</group>
+					<group col="4">
+						<field name="sites_ids" widget="many2many_tags"/>
+						<field name="is_virtual" />
+					</group>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	
+	<record id="action_university_site_act_window" model="ir.actions.act_window">
+		<field name="type">ir.actions.act_window</field>
+		<field name="name">Sites Universidad</field>
+		<field name="res_model">university.site</field>
+		<field name="view_mode">tree,form</field>
+		<field name="target">current</field>
+	</record>
+
+	<record id="action_university_dean_act_window" model="ir.actions.act_window">
+		<field name="type">ir.actions.act_window</field>
+		<field name="name">Decanaturas Universidad</field>
+		<field name="res_model">university.dean</field>
+		<field name="view_mode">tree,form</field>
+		<field name="target">current</field>
+	</record>
+
+	<record id="action_university_career_act_window" model="ir.actions.act_window">
+		<field name="type">ir.actions.act_window</field>
+		<field name="name">Carreras Universidad</field>
+		<field name="res_model">university.career</field>
+		<field name="view_mode">tree,form</field>
+		<field name="target">current</field>
+		<field name="search_view_id" ref="university_career_view_search" />
+	</record>
+	
+</odoo>

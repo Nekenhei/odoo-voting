@@ -1,2 +1,8 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_voting_voting,voting.voting,model_voting_voting,base.group_user,1,1,1,1
+access_student_candidate,student.candidate,model_student_candidate,,1,1,1,1
+access_university_site,university.site,model_university_site,,1,1,1,1
+access_university_dean,university.dean,model_university_dean,,1,1,1,1
+access_university_career,university.career,model_university_career,,1,1,1,1
+access_voting_process,voting.process,model_voting_process,,1,1,1,1
+access_voting_process_candidate,voting.process.candidate,model_voting_process_candidate,,1,1,1,1
+access_candidate_vote,candidate.vote,model_candidate_vote,,1,1,1,1

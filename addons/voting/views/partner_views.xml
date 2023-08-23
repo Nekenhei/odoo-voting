@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="voting_inherit_res_parter_form" model="ir.ui.view">
+        <field name="name">voting.inherit.res.parter.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='sales_purchases']" position="after">
+                <page name="voting" string="Votación">
+                    <group col="4">
+                        <field name="student_identification" />
+                        <field name="type_career" />
+                    </group>
+                    <group col="4">
+                        <field name="career_id" />
+                        <field name="site_id" />
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

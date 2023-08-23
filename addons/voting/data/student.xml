@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- STUDENTS -->
+        <record id="student_01" model="res.partner">
+            <field name="name">Esteban Giraldo</field>
+            <field name="parent_id" ref="base.res_partner_3"/>
+            <field name="function">Senior Consultant</field>
+            <field name="email">esteban.brown74@example.com</field>
+            <field name="phone">(310)-386-3277</field>
+            <field name="student_identification">00001</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="career_id" ref="voting.software_career"/>
+            <field name="site_id" ref="voting.colombia_site"/>
+        </record>
+
+        <record id="student_02" model="res.partner">
+            <field name="name">Vanessa Moreno</field>
+            <field name="parent_id" ref="base.res_partner_3"/>
+            <field name="function">Director</field>
+            <field name="email">vanessa.palmer15@example.com</field>
+            <field name="phone">(310)-167-2040</field>
+            <field name="student_identification">00002</field>
+            <field name="career_id" ref="voting.healt_career"/>
+            <field name="site_id" ref="voting.belgium_site"/>
+        </record>
+
+        <!-- CANDIDATES -->
+        <record id="candidate_01" model="student.candidate">
+            <field name="partner_id" ref="voting.student_02"/>
+            <field name="candidate_identification">01</field>
+            <field name="name">(01) Vanessa Moreno</field>
+        </record>
+        
+        <record id="candidate_01" model="student.candidate">
+            <field name="partner_id" ref="voting.student_01"/>
+            <field name="candidate_identification">02</field>
+            <field name="name">(02) Esteban Giraldo</field>
+        </record>
+    </data>
+</odoo>
