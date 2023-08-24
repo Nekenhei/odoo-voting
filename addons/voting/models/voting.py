@@ -10,9 +10,9 @@ class VotingProcess(models.Model):
 
     name = fields.Char('Name', default='/', readonly=True)
     semester = fields.Selection([('first', '1er Semestre'), ('second', '2o Semestre')], 'Semestre Votación', store=True,
-                                compute='_get_year_semester')
+                                compute='_get_year_semester', readonly=True)
     year = fields.Integer('Año Votación', readonly=True, compute='_get_year_semester', store=True)
-    description = fields.Text('Descripción Proceso Votación', copy=False)
+    description = fields.Html('Descripción Proceso Votación', copy=False)
     start_date = fields.Datetime('Fecha Inicio', required=True, copy=False)
     end_date = fields.Datetime('Fecha Fin', required=True, copy=False)
     state = fields.Selection([('draft', 'Borrador'), ('in_progress', 'En Progreso'), ('done', 'Cerrada'), 
@@ -25,8 +25,9 @@ class VotingProcess(models.Model):
          'Los procesos de Votación deben ser unicos para cada combinación de Año/Semestre')
     ]
     
-    @api.constrains('start_date, end_date')
+    @api.constrains('start_date', 'end_date')
     def _check_dates(self):
+        vot_env = self.env['voting.process']
         for record in self:
             if record.end_date < record.start_date:
                 raise UserError(f'Las fecha de Inicio debe ser menor a la Fecha Fin del proceso.')
@@ -34,29 +35,37 @@ class VotingProcess(models.Model):
             days_diff = (record.end_date - record.start_date).days
             if days_diff > 1:
                 raise UserError('Las votaciones deben ser llevadas a cabo el mismo día')
+            
+            votings = vot_env.search([('site_id', '=', record.site_id.id), ('semester', '=', record.semester), 
+                                      ('year', '=', record.year), ('state', '!=', 'cancel'), ('id', '!=', record.id)])
+            if votings:
+                raise UserError('Ya existe una votación para el semestre y site indicados')
+            
+    @api.constrains('state', 'site_id')
+    def _check_dates(self):
+        vot_env = self.env['voting.process']
+        for record in self:
+            open_votes = vot_env.search([('state', '=', 'in_progress'), ('site_id', '=', record.site_id.id), ('id', '!=', record.id)])
+            if open_votes:
+                raise UserError(f'Ya existen votaciones en curso para el site {record.site_id.name}')
     
     @api.model
     def create(self, values):
         values['name'] = self.env['ir.sequence'].next_by_code('voting.process.seq')
         return super(VotingProcess, self).create(values)
     
-    @api.depends('start_date','end_date')
+    @api.depends('start_date')
     def _get_year_semester(self):
         for record in self:
-            if record.start_date.month <= 6:
-                semester = 'first'
-            else:
-                semester = 'second'
-            
-            record.year = record.start_date.year #TODO
-            record.semester = semester
-    
-    @api.onchange('start_date, end_date')
-    def _onchange_dates(self):
-        votings = self.env['voting.process'].search([('site_id', '=', self.site_id), ('semester', '=', self.semester), 
-                                                     ('year', '=', self.year), ('state', '!=', 'cancel')])
-        if votings:
-            raise UserError('Ya existe una votación para el semestre y site indicados')
+            if record.start_date:
+                start_date = record.start_date
+                if start_date.month <= 6:
+                    semester = 'first'
+                else:
+                    semester = 'second'
+                
+                record.year = start_date.year
+                record.semester = semester
     
     def button_start(self):
         dt_now = fields.Datetime.now()
@@ -78,8 +87,12 @@ class VotingProcess(models.Model):
         if dt_now < self.end_date: 
             raise UserError(f'La votación está programada a ser finalizada hasta las {self.end_date}. Aún no se puede cerrar.')
         
+        voting_cnt = sum(x.voting_qty for x in self.voting_line_ids)
+        if voting_cnt < 1:
+            raise UserError(f'La votación no presentó Votos. Debe cancelarla y crear una nueva con una nueva programación')
+        
         self.write({
-            'state': 'close'
+            'state': 'done'
         })
     
     def button_cancel(self):

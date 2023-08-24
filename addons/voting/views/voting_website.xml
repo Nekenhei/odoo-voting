@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="voting_template" name="Registro Votos">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <section class="s_website_form" data-vcss="001" data-snippet="s_website_form">
+                    <div class="container">
+                        <t t-if="ok">
+                            <h1>Votaciones UNIACME</h1>
+                            <p>
+                                Bienvenid@ <span t-esc="logged_partner.name"/> a las votaciones 
+                                <strong><span t-esc="open_voting_session.year"/></strong> [
+                                <t t-if="open_voting_session.semester == 'first'">1er Semestre</t>
+                                <t t-else="">2o Semestre</t>
+                                ] Sede <strong><span t-esc="open_voting_session.site_id.name"/></strong>.
+                            </p>
+                            <p>
+                                <span t-esc="open_voting_session.description"/>
+                            </p>
+                            <p>
+                                La votación se llevará a cabo desde: <span t-esc="open_voting_session.start_date"/>
+                                hasta: <span t-esc="open_voting_session.end_date"/>
+                            </p>
+                            <p>
+                                Por favor seleccione a continuación el candidato por el que desea votar y luego de click en <i>"Registrar Voto"</i>.
+                            </p>
+                            <form action="/voting/submit/" method="post" enctype="multipart/form-data" class="o_mark_required" data-mark="*" data-model_name="" data-success-page="">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <input type="hidden" name="voting_id" t-att-value="open_voting_session.id"/>
+                                <input type="hidden" name="partner_vote_id" t-att-value="logged_partner.id"/>
+                                <div class="s_website_form_rows row s_col_no_bgcolor">
+                                    <div class="form-group col-12 s_website_form_field s_website_form_required" data-type="char" data-name="Field">
+                                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                                            <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="studio1">
+                                                <span class="s_website_form_label_content">Candidatos</span>
+                                                <span class="s_website_form_mark"> *</span>
+                                            </label>
+                                            <div class="col-sm">
+                                                <select name="candidate_id" t-attf-class="form-control s_website_form_input" required="1">
+                                                    <t t-foreach="candidates or []" t-as="candidate">
+                                                        <option t-att-value="candidate.id">
+                                                            <t t-esc="candidate.name" />
+                                                        </option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <br/>
+                                    <div class="form-group col-12 s_website_form_submit" data-name="Submit Button">
+                                        <div style="width: 200px;" class="s_website_form_label"/>
+                                        <button type="submit" class="btn btn-primary">Registrar Voto</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </t>
+                        <t t-else="">
+                            <div class="alert alert-warning m-3">
+                                Lo sentimos.<br/>
+                                No se encontraron votaciones activas en su site.
+                            </div>
+                        </t>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <template id="voting_done_template" name="Registro Votos">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <section class="s_website_form" data-vcss="001" data-snippet="s_website_form">
+                    <div class="container">
+                        <h1>Votaciones UNIACME</h1>
+                            <div class="alert alert-primary">
+                                Su voto ha sido registrado exitosamente.
+                                Ya puede cerrar esta pestaña
+                            </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+</odoo>

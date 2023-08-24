@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    
+    <menuitem id="voting_menu_root" name="Votación" web_icon="static/description/icon.svg"
+        active="True" sequence="80">
+
+        <menuitem id="voting_menu" name="Votaciones" sequence="10">
+            <menuitem id="menu_sale_quotations" action="action_voting_process_act_window" sequence="10" />
+        </menuitem>
+
+        <menuitem id="voting_settings_menu" name="Configuraciones" sequence="15">
+            <menuitem id="menu_student_candidate" action="action_student_candidate_act_window" sequence="10" />
+            <menuitem id="menu_university_settings" name="Universidades" sequence="15">
+                <menuitem id="menu_university_site" action="action_university_site_act_window" sequence="10" />
+                <menuitem id="menu_university_dean" action="action_university_dean_act_window" sequence="15" />
+                <menuitem id="menu_university_career" action="action_university_career_act_window" sequence="20" />
+            </menuitem>
+        </menuitem>
+
+    </menuitem>
 
 </odoo>

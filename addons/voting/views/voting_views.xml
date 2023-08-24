@@ -41,6 +41,13 @@
         <field name="arch" type="xml">
             <form string="Votacion">
                 <header>
+                    <button name="button_start" type="object" string="Iniciar Votación" class="oe_highlight"
+                        attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                    <button name="button_close" type="object" string="Finalizar Votación" class="oe_highlight"
+                        attrs="{'invisible': [('state', '!=', 'in_progress')]}"/>
+                    <button name="button_cancel" type="object" string="Cancelar Votación" 
+                        confirm="¿Está seguro de cancelar la votación? Esta acción no se puede deshacer"
+                        attrs="{'invisible': [('state', 'not in', ('draft','in_progress'))]}"/>
 					<field name="state" widget="statusbar" statusbar_visible="draft,in_progress,done"/>
 				</header>
                 <sheet>
@@ -49,18 +56,24 @@
 							<field name="name"/>
 						</h1>
 					</div>
-                    <group col="6">
-                        <field name="year"/>
-                        <field name="semester"/>
-                        <field name="site_id"/>
-                    </group>
-                    <group col="4">
-                        <field name="start_date"/>
-                        <field name="end_date"/>
+                    <group>
+                        <group>
+                            <field name="year"/>
+                            <field name="semester"/>
+                            <field name="site_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        </group>
+                        <group>
+                            <field name="start_date"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="end_date"  attrs="{'readonly': [('state', 'not in', ('draft', 'in_progress'))]}"/>
+                        </group>
                     </group>
                     <notebook>
+                        <page name="desc" string="Descripción Votación">
+                            <field name="description" widget="html" 
+                                   attrs="{'readonly': [('state', 'not in', ('draft', 'in_progress'))]}"/>
+                        </page>
                         <page name="voting" string="Candidatos">
-                            <field name="voting_line_ids">
+                            <field name="voting_line_ids"  attrs="{'readonly': [('state', '!=', 'draft')]}">
                                 <tree string="Candidatos" create="true" delete="true" edit="true" editable="bottom">
                                     <field name="candidate_id"/>
                                     <field name="voting_qty"/>
@@ -72,5 +85,14 @@
             </form>
         </field>
     </record>
+
+    <record id="action_voting_process_act_window" model="ir.actions.act_window">
+		<field name="type">ir.actions.act_window</field>
+		<field name="name">Procesos de Votaciones</field>
+		<field name="res_model">voting.process</field>
+		<field name="view_mode">tree,form</field>
+		<field name="target">current</field>
+		<field name="search_view_id" ref="voting_process_view_search" />
+	</record>
 
 </odoo>

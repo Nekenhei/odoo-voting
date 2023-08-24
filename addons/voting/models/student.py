@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from odoo import fields, models, api
-from odoo.exceptions import ValidationError
 
 
 class ResPartner(models.Model):
@@ -31,7 +30,7 @@ class StudentCandidate(models.Model):
 
     partner_id = fields.Many2one('res.partner', 'Estudiante', required=True, copy=False)
     candidate_identification = fields.Integer('# Asignado para Tarjeton', required=True, copy=False)
-    name = fields.Char('Nombre', compute='_compute_name', readonly=True)
+    name = fields.Char('Nombre', compute='_get_name', readonly=True)
     voting_line_ids = fields.One2many('voting.process.candidate', 'candidate_id', 'Votaciones', readonly=True, copy=False)
     
     _sql_constraints = [
@@ -51,3 +50,11 @@ class StudentCandidate(models.Model):
             partner_name = partner.name
         values['name'] = '(' + str(iden) + ') ' + partner_name
         return super(StudentCandidate, self).create(values)
+    
+    def _get_name(self):
+        for record in self:
+            if record.partner_id:
+                name = '[' + str(record.candidate_identification) + '] ' + record.partner_id.name
+            else:
+                name = 'N/A'
+            record.name = name

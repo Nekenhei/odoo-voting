@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "voting",
+    'name': "Votación",
 
     'summary': """
         Module made to handle the voting process in UNIACME university.""",
@@ -20,13 +20,14 @@
     'version': '0.1',
     'license': 'LGPL-3',
     # any module necessary for this one to work correctly
-    'depends': ['base', 'contacts'],
+    'depends': ['contacts', 'website'],
 
     # always loaded
     'data': [
         'data/sequence.xml',
         'data/university.xml',
         'data/student.xml',
+        'data/voting.xml',
         
         'security/ir.model.access.csv',
         
@@ -34,6 +35,7 @@
         'views/partner_views.xml',
         'views/student_views.xml',
         'views/voting_views.xml',
+        'views/voting_website.xml',
         'views/menu_views.xml',
     ],
     'application': True,
