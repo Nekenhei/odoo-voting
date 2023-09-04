@@ -6,3 +6,4 @@ access_university_career,university.career,model_university_career,,1,1,1,1
 access_voting_process,voting.process,model_voting_process,,1,1,1,1
 access_voting_process_candidate,voting.process.candidate,model_voting_process_candidate,,1,1,1,1
 access_candidate_vote,candidate.vote,model_candidate_vote,,1,1,1,1
+access_voting_importer,voting.importer,model_voting_importer,,1,1,1,1

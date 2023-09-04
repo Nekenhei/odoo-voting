@@ -86,6 +86,42 @@
         </field>
     </record>
 
+    <record id="voting_process_candidate_view_form" model="ir.ui.view">
+        <field name="name">voting.process.candidate.view.form</field>
+        <field name="model">voting.process.candidate</field>
+        <field name="arch" type="xml">
+            <form string="Caption" create="true" delete="true" edit="true">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <field name="voting_id"/>
+                        <field name="voting_qty"/>
+                    </group>
+                    <field name="vote_ids">
+                        <tree string="Votos" create="False" delete="False" edit="False" editable="bottom">
+                            <field name="voting_candidate_id"/>
+                            <field name="student_id"/>
+                        </tree>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="voting_process_candidate_view_pivot" model="ir.ui.view">
+        <field name="name">voting.process.candidate.view.pivot</field>
+        <field name="model">voting.process.candidate</field>
+        <field name="arch" type="xml">
+            <pivot string="Historico Votaciones" disable_linking="true">
+                <field name="voting_id" type="col"/>
+                <field name="candidate_id" type="row"/>
+                <field name="voting_qty" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
     <record id="action_voting_process_act_window" model="ir.actions.act_window">
 		<field name="type">ir.actions.act_window</field>
 		<field name="name">Procesos de Votaciones</field>
@@ -93,6 +129,14 @@
 		<field name="view_mode">tree,form</field>
 		<field name="target">current</field>
 		<field name="search_view_id" ref="voting_process_view_search" />
+	</record>
+
+    <record id="voting_process_candidate_report" model="ir.actions.act_window">
+		<field name="type">ir.actions.act_window</field>
+		<field name="name">Historico Votaciones</field>
+		<field name="res_model">voting.process.candidate</field>
+		<field name="view_mode">pivot</field>
+		<field name="target">current</field>
 	</record>
 
 </odoo>

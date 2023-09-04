@@ -108,14 +108,21 @@ class VotingProcessCandidate(models.Model):
     _name = 'voting.process.candidate'
     _description = 'Candidatos por Proceso de Votación'
     
-    def _get_voting_qty(self):
-        for record in self:
-            record.voting_qty = len(record.vote_ids)
 
+    name = fields.Char('Nombre', compute='_compute_name', readonly=True)
     candidate_id = fields.Many2one('student.candidate', 'Candidato', copy=False, required=True)
     voting_id = fields.Many2one('voting.process', 'Proceso Votación', copy=False, required=True)
-    voting_qty = fields.Integer('Cantidad Votos Candidato', readonly=True, compute='_get_voting_qty')
+    voting_qty = fields.Integer('Cantidad Votos Candidato', readonly=True, compute='get_voting_qty', store=True)
     vote_ids = fields.One2many('candidate.vote', 'voting_candidate_id')
+    
+    @api.depends('vote_ids')
+    def get_voting_qty(self):
+        for record in self:
+            record.voting_qty = len(record.vote_ids)
+    
+    def _compute_name(self):
+        for record in self:
+            record.name = record.candidate_id.partner_id.name + ' (' + record.voting_id.name + ')'
 
 
 class CandidateVote(models.Model):

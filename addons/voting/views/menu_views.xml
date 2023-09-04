@@ -4,8 +4,12 @@
     <menuitem id="voting_menu_root" name="Votación" web_icon="static/description/icon.svg"
         active="True" sequence="80">
 
-        <menuitem id="voting_menu" name="Votaciones" sequence="10">
-            <menuitem id="menu_sale_quotations" action="action_voting_process_act_window" sequence="10" />
+        <menuitem id="voting_menu" name="Votaciones" sequence="5">
+            <menuitem id="voting_process_menu" action="action_voting_process_act_window" sequence="10" />
+        </menuitem>
+
+        <menuitem id="voting_reports_menu" name="Reportes" sequence="10">
+            <menuitem id="voting_process_candidate_report_menu" action="voting_process_candidate_report" sequence="10" />
         </menuitem>
 
         <menuitem id="voting_settings_menu" name="Configuraciones" sequence="15">

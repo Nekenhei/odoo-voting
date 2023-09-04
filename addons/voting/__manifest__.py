@@ -37,6 +37,8 @@
         'views/voting_views.xml',
         'views/voting_website.xml',
         'views/menu_views.xml',
+        
+        'wizard/vote_importer_views.xml'
     ],
     'application': True,
     'installable': True
